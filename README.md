@@ -1,5 +1,5 @@
 # react-reviews
-Practice React alone
+Practice React and Git/GitHub alone
 
 create-react-app
 1. 배열렌더링하기
