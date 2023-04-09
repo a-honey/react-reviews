@@ -1,0 +1,40 @@
+.ReviewListItem-card {
+  display: flex;
+  align-items: center;
+  height: 500px;
+  width: 1000px;
+  background-color: white;
+  margin: 40px auto;
+  border-radius: 20px;
+}
+
+.ReviewListItem-img {
+  width: 300px;
+  height: 400px;
+  margin: 20px 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.ReviewListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.title {
+  font-weight: 700;
+  font-size: 45px;
+  margin-bottom: 40px;
+}
+
+.rating {
+  margin: 0 10px 10px;
+}
+
+.createAt {
+  margin: 0 10px 20px;
+}
+
+.content {
+  padding: 20px 40px;
+}
