@@ -30,6 +30,11 @@ function App() {
     setReviews(reviews);
   };
 
+  const handleDelete = (id) => {
+    const nextReviews = reviews.filter((review) => review.id !== id);
+    setReviews(nextReviews);
+  };
+
   useEffect(() => {
     handleLoad();
   }, []);
@@ -44,8 +49,7 @@ function App() {
           베스트순
         </SortUpdate>
       </div>
-
-      <ReviewList reviews={sortedReviews} />
+      <ReviewList reviews={sortedReviews} onDelete={handleDelete} />
     </div>
   );
 }

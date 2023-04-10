@@ -1,6 +1,11 @@
 import "./ReviewList.css";
+import styled from "styled-components";
 
-function ReviewListItem({ review }) {
+const Deletebutton = styled.button`
+  color: red;
+`;
+
+function ReviewListItem({ review, onDelete }) {
   const { imgUrl, content, title, rating, createdAt } = review;
 
   function formatDate(value) {
@@ -9,6 +14,10 @@ function ReviewListItem({ review }) {
       date.getMonth() + 1
     }월 ${date.getDate()}일`;
   }
+
+  const handleDeleteClick = () => {
+    onDelete(review.id);
+  };
 
   return (
     <div className="ReviewListItem-card">
@@ -19,17 +28,20 @@ function ReviewListItem({ review }) {
         <div className="createAt">{formatDate(createdAt)}</div>
         <div className="content">{content}</div>
       </div>
+      <Deletebutton className="deletebutton" onClick={handleDeleteClick}>
+        삭제
+      </Deletebutton>
     </div>
   );
 }
 
-function ReviewList({ reviews }) {
+function ReviewList({ reviews, onDelete }) {
   return (
     <div className="Cards">
       {reviews.map((review) => {
         return (
           <div key={review.id}>
-            <ReviewListItem review={review} />
+            <ReviewListItem review={review} onDelete={onDelete} />
           </div>
         );
       })}
