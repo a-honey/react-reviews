@@ -1,9 +1,4 @@
 import "./ReviewList.css";
-import styled from "styled-components";
-
-const Deletebutton = styled.button`
-  color: red;
-`;
 
 function ReviewListItem({ review, onDelete }) {
   const { imgUrl, content, title, rating, createdAt } = review;
@@ -20,24 +15,29 @@ function ReviewListItem({ review, onDelete }) {
   };
 
   return (
-    <div className="ReviewListItem-card">
+    <div className="ReviewListItem" key={review.id}>
       <img className="ReviewListItem-img" src={imgUrl} alt={title} />
-      <div className="ReviewListItem">
-        <div className="title">{title}</div>
-        <div className="rating">{rating}</div>
-        <div className="createAt">{formatDate(createdAt)}</div>
-        <div className="content">{content}</div>
+      <div className="ReviewListItem-rows">
+        <h1 className="ReviewListItem-title">{title}</h1>
+        <p className="ReviewListItem-rating">{rating}</p>
+        <p className="ReviewListItem-date">{formatDate(createdAt)}</p>
+        <p className="ReviewListItem-content">{content}</p>
+        <div className="ReviewListItem-buttons">
+          <button
+            className="ReviewListItem-delete-button"
+            onClick={handleDeleteClick}
+          >
+            삭제
+          </button>
+        </div>
       </div>
-      <Deletebutton className="deletebutton" onClick={handleDeleteClick}>
-        삭제
-      </Deletebutton>
     </div>
   );
 }
 
 function ReviewList({ reviews, onDelete }) {
   return (
-    <div className="Cards">
+    <div className="ReviewList">
       {reviews.map((review) => {
         return (
           <div key={review.id}>

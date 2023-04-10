@@ -7,7 +7,13 @@ create-react-app
 1. 배열렌더링하기
 
 - map, sort, filter
-
+데이터전체 state 만들기. 데이터 전체를 저장.
+정렬기준 state 만들기. 정렬기준을 저장.
+데이터 전체 state를 정렬하는 함수에 정렬기준을 줘서 정렬기준이 변경될때마다 새로 정렬하게 만들기
+정렬된데이터를 prop으로 넘겨주기
+onDelete로 filter하는 함수를 prop 내려주기
+받은 onDelete prop을 실행하는 handleClick 이벤트핸들러 만들기.
+App.js에서 데이터가져오기/정렬/데이터삭제
 2. 데이터 가져오기
 
 - fetch, useEffect, useState
