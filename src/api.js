@@ -10,7 +10,7 @@ export async function getReviews() {
 }
 
 export async function createReview(formData) {
-  const response = await fetch(`{BASE_URL}/film-reviews`, {
+  const response = await fetch(`${BASE_URL}/film-reviews`, {
     method: "POST",
     body: formData,
   });
