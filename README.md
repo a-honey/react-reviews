@@ -38,6 +38,7 @@ create-react-app
 4. 데이터 보내기
 
 - PUT, DELETE, 리액트 HOOK, useCallback
+  현재 value를 넣어서 데이터를 보냈다가 받음. 받은값넣어서 reviews 다시 렌더링하고 입력폼 초기화
 
 5. 전역 데이터 다루기
 

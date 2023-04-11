@@ -25,6 +25,10 @@ function App() {
     setReviews(nextReviews);
   };
 
+  const handleSubmitSucess = (review) => {
+    setReviews((prevReviews) => [review, ...prevReviews]);
+  };
+
   useEffect(() => {
     handleLoad();
   }, []);
@@ -42,7 +46,7 @@ function App() {
           className="App-ReviewForm"
           style={{ backgroundImage: `url("${ticketImg})` }}
         >
-          <ReviewForm />
+          <ReviewForm onSubmitSuccess={handleSubmitSucess} />
         </div>
         <div className="App-sorts">
           <button className="AppSortButton" onClick={handleUpdatedAt}>

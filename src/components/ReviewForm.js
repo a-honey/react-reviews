@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import placeholderImg from "../assets/preview-placeholder.png";
 import resetImg from "../assets/ic-reset.png";
 import "./ReviewForm.css";
+import { createReview } from "../api";
 
 function FileInput({ className = "", name, value, onChange }) {
   const inputRef = useRef();
@@ -52,7 +53,7 @@ function FileInput({ className = "", name, value, onChange }) {
   );
 }
 
-function ReviewForm({ className = "" }) {
+function ReviewForm({ className = "", onSubmitSuccess }) {
   const [values, setValues] = useState({
     title: "",
     rating: 0,
@@ -72,9 +73,21 @@ function ReviewForm({ className = "" }) {
     handleChange(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("rating", values.rating);
+    formData.append("content", values.content);
+    formData.append("imgFile", values.imgFile);
+    const { review } = await createReview(formData);
+    onSubmitSuccess(review);
+    setValues({
+      title: "",
+      rating: 0,
+      content: "",
+      imgFile: null,
+    });
   };
 
   return (
