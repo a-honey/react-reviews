@@ -4,14 +4,15 @@ import resetImg from "../assets/ic-reset.png";
 import "./ReviewForm.css";
 import { createReview } from "../api";
 
-function FileInput({ className = "", name, value, onChange }) {
+function FileInput({ className = "", name, initialPreview, value, onChange }) {
+  const [preview, setPreview] = useState(initialPreview);
   const inputRef = useRef();
-  const [preview, setPreview] = useState();
 
   const handleChange = (e) => {
     const nextValue = e.target.files[0];
     onChange(name, nextValue);
   };
+
   const handleClearClick = () => {
     const inputNode = inputRef.current;
     if (!inputNode) return;
@@ -26,10 +27,10 @@ function FileInput({ className = "", name, value, onChange }) {
     setPreview(nextPreview);
 
     return () => {
-      setPreview();
+      setPreview(initialPreview);
       URL.revokeObjectURL(nextPreview);
     };
-  }, [value]);
+  }, [value, initialPreview]);
 
   return (
     <div className={`FileInput ${className}`}>

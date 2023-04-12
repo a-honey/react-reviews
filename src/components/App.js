@@ -1,4 +1,4 @@
-import { getReviews } from "../api";
+import { getReviews, updateReview } from "../api";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
 import { useState, useEffect } from "react";
@@ -27,6 +27,17 @@ function App() {
 
   const handleSubmitSucess = (review) => {
     setReviews((prevReviews) => [review, ...prevReviews]);
+  };
+
+  const handleUpdateSuccess = (review) => {
+    setReviews((prevReviews) => {
+      const splitIdx = prevReviews.findIndex((item) => (item.id = review.id));
+      return [
+        ...prevReviews.slice(0, splitIdx),
+        review,
+        ...prevReviews.slice(splitIdx + 1),
+      ];
+    });
   };
 
   useEffect(() => {
@@ -58,7 +69,12 @@ function App() {
         </div>
       </div>
       <div className="App-ReviewList">
-        <ReviewList reviews={sortedReviews} onDelete={handleDelete} />
+        <ReviewList
+          reviews={sortedReviews}
+          onDelete={handleDelete}
+          onUpdate={updateReview}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
         더보기버튼 및 언어선택
       </div>
       <footer className="App-footer">
