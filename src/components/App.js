@@ -1,23 +1,51 @@
-import { getReviews, updateReview } from "../api";
+import { createReview, deleteReview, getReviews, updateReview } from "../api";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
-import { useState, useEffect } from "react";
-import ticketImg from "../assets/ticket.png";
+import { useCallback, useState, useEffect } from "react";
 import "./App.css";
 import logoImg from "../assets/logo.png";
+import ticketImg from "../assets/ticket.png";
+
+const LIMIT = 6;
 
 function App() {
   const [order, setOrder] = useState("createdAt");
+  const [offset, setOffset] = useState(0);
+  const [hasNext, setHasNext] = useState(false);
   const [reviews, setReviews] = useState([]);
 
   const sortedReviews = reviews.sort((a, b) => b[order] - a[order]);
 
   const handleUpdatedAt = () => setOrder("updatedAt");
+
   const handleRating = () => setOrder("rating");
 
-  const handleLoad = async () => {
-    const { reviews } = await getReviews();
-    setReviews(reviews);
+  const handleDelete = async (id) => {
+    const result = await deleteReview(id);
+    if (!result) return;
+
+    setReviews((prevReviews) => prevReviews.filter((review) => review.id ! ==id));
+  }
+
+  const handleLoad = useCallback(
+    async (options) => {
+      const result = await getReviewsAsync(options);
+      if (!result) return;
+
+      const { paging, reviews } = result;
+      if (options.offset === 0) {
+        setItems(reviews);
+      } else {
+        setItems((prevItems) => [...prevItems, ...reviews]);
+      }
+      setOffset(options.offset + options.limit);
+      setHasNext(paging.hasNext);
+    },
+    [getReviewsAsync]
+  );
+
+  const handleLoadMore = async () => {
+    await handleLoad({ order, offset, limit: LIMIT });
   };
 
   const handleDelete = (id) => {
