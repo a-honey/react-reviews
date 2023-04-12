@@ -14,6 +14,7 @@ create-react-app
   onDelete로 filter하는 함수를 prop 내려주기
   받은 onDelete prop을 실행하는 handleClick 이벤트핸들러 만들기.
   App.js에서 데이터가져오기/정렬/데이터삭제
+  offset, limit로 쿼리설정하기 더보기 클릭 이벤트 만들기
 
 2. 데이터 가져오기
 
@@ -39,6 +40,7 @@ create-react-app
 
 - PUT, DELETE, 리액트 HOOK, useCallback
   현재 value를 넣어서 데이터를 보냈다가 받음. 받은값넣어서 reviews 다시 렌더링하고 입력폼 초기화
+  수정상태 State 만들어서 수정상태일때 return 값, 추가일때 return값 다르게 만들기
 
 5. 전역 데이터 다루기
 
