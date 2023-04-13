@@ -1,12 +1,14 @@
 import "./ReviewList.css";
 
-function ReviewListItem({ item }) {
+function ReviewListItem({ item, onDelete }) {
   function formatDate(value) {
     const date = new Date(value);
     return `${date.getFullYear()}년 ${
       date.getMonth() + 1
     }월 ${date.getDate()}일`;
   }
+
+  const handleDeleteClick = () => onDelete(item.id);
 
   return (
     <div className="ReviewListItem">
@@ -18,18 +20,26 @@ function ReviewListItem({ item }) {
           {formatDate(item.createdAt)}
         </div>
         <div className="ReviewListItem-content">{item.content}</div>
+        <div className="ReviewListItem-button">
+          <button
+            className="ReviewListItem-deletebutton"
+            onClick={handleDeleteClick}
+          >
+            삭제
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function ReviewList({ items }) {
+function ReviewList({ items, onDelete }) {
   return (
     <div>
       {items.map((item) => {
         return (
           <div key={item.id}>
-            <ReviewListItem item={item} />
+            <ReviewListItem item={item} onDelete={onDelete} />
           </div>
         );
       })}

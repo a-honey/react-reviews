@@ -15,12 +15,20 @@ export async function createReview(dataform) {
     method: "POST",
     body: dataform,
   });
-
   if (!response.ok) {
     throw new Error("리뷰를 생성하는데 실패했습니다.");
   }
+  const body = await response.json();
+  return body;
+}
 
-  const result = await response.json();
-
-  return result;
+export async function deleteReview(id) {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!response) {
+    throw new Error("리뷰를 삭제하는데 실패했습니다.");
+  }
+  const body = await response.json();
+  return body;
 }

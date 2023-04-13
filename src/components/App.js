@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createReview, getReviews } from "../api";
+import { deleteReview, createReview, getReviews } from "../api";
 import ReviewList from "./ReviewList";
 import logoimg from "../assets/logo.png";
 import "./App.css";
@@ -21,6 +21,13 @@ function App() {
 
   const handleCreateSuccess = (review) => {
     setItems((prevItems) => [review, ...prevItems]);
+  };
+
+  const handleDelete = async (id) => {
+    const result = await deleteReview(id);
+    if (!result) return;
+
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   useEffect(() => {
@@ -48,7 +55,11 @@ function App() {
             별점순
           </button>
         </div>
-        <ReviewList className="ReviewList" items={sorteditems} />
+        <ReviewList
+          className="ReviewList"
+          items={sorteditems}
+          onDelete={handleDelete}
+        />
       </div>
     </div>
   );
