@@ -1,18 +1,41 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { deleteReview, createReview, getReviews } from "../api";
 import ReviewList from "./ReviewList";
 import logoimg from "../assets/logo.png";
 import "./App.css";
 import ReviewForm from "./ReviewForm";
+import useAsync from "../hooks/useAsync";
+
+const LIMIT = 3;
 
 function App() {
   const [items, setItems] = useState([]);
   const [order, setOrder] = useState("createdAt");
+  const [offset, setOffset] = useState(0);
+  const [isLoading, loadingError, getReviewsAsync] = useAsync(getReviews);
+  const [hasNext, setHasNext] = useState(false);
+
   const sorteditems = items.sort((a, b) => b[order] - a[order]);
 
-  const handleLoad = async () => {
-    const { reviews } = await getReviews();
-    setItems(reviews);
+  const handleLoad = useCallback(
+    async (options) => {
+      const result = await getReviewsAsync(options);
+      if (!result) return;
+
+      const { paging, reviews } = result;
+      if (options.offset === 0) {
+        setItems(reviews);
+      } else {
+        setItems((prevItems) => [...prevItems, ...reviews]);
+      }
+      setOffset(options.offset + options.limit);
+      setHasNext(paging.hasNext);
+    },
+    [getReviewsAsync]
+  );
+
+  const handleLoadMore = async () => {
+    await handleLoad({ order, offset, limit: LIMIT });
   };
 
   const handleCreatedAtOrder = () => setOrder("createdAt");
@@ -31,8 +54,8 @@ function App() {
   };
 
   useEffect(() => {
-    handleLoad();
-  }, [order]);
+    handleLoad({ order, offset: 0, limit: LIMIT });
+  }, [order, handleLoad]);
 
   return (
     <div className="app">
@@ -60,6 +83,18 @@ function App() {
           items={sorteditems}
           onDelete={handleDelete}
         />
+        {hasNext ? (
+          <button
+            className="app-more-button"
+            disabled={isLoading}
+            onClick={handleLoadMore}
+          >
+            더보기
+          </button>
+        ) : (
+          <div className="app-more-button" />
+        )}
+        {loadingError?.message && <span>{loadingError.message}</span>}
       </div>
     </div>
   );

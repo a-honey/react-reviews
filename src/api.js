@@ -1,12 +1,16 @@
 const BASE_URL = "https://learn.codeit.kr/5675/film-reviews";
 
-export async function getReviews() {
-  const response = await fetch(BASE_URL);
+export async function getReviews({
+  order = "createdAt",
+  offset = 0,
+  limit = 3,
+}) {
+  const query = `order=${order}&offset=${offset}&limit=${limit}`;
+  const response = await fetch(`${BASE_URL}?${query}`);
   if (!response) {
     throw new Error("리뷰를 가져오는데 실패하였습니다.");
   }
   const result = await response.json();
-
   return result;
 }
 
