@@ -1,3 +1,4 @@
+import Rating from "./Rating";
 import "./ReviewList.css";
 
 function ReviewListItem({ item, onDelete }) {
@@ -15,7 +16,7 @@ function ReviewListItem({ item, onDelete }) {
       <img className="ReviewListItem-img" src={item.imgUrl} alt={item.title} />
       <div className="ReviewListItem-box">
         <div className="ReviewListItem-title">{item.title}</div>
-        <div className="ReviewListITem-rating">{item.rating}</div>
+        <Rating className="ReviewListITem-rating" value={item.rating} />
         <div className="ReviewListItem-createdAt">
           {formatDate(item.createdAt)}
         </div>

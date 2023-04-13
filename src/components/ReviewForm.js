@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FileInput from "./FileInput";
 import "./ReviewForm.css";
-import { createReview } from "../api";
+import RatingInput from "./RatingInput";
 
 const INITIAL_VALUE = {
   title: "",
@@ -10,12 +10,12 @@ const INITIAL_VALUE = {
   content: "",
 };
 
-function ReviewForm(
+function ReviewForm({
   initialValues = INITIAL_VALUE,
   initialPreview,
   onSubmit,
-  onSubmitSuccess
-) {
+  onSubmitSuccess,
+}) {
   const [values, setValues] = useState(initialValues);
 
   const handleChange = (name, value) => {
@@ -38,7 +38,7 @@ function ReviewForm(
     dataform.append("content", values.content);
     dataform.append("imgUrl", values.imgUrl);
 
-    const result = await createReview(dataform);
+    const result = await onSubmit(dataform);
     if (!result) return;
     const { review } = result;
     setValues(INITIAL_VALUE);
@@ -63,12 +63,11 @@ function ReviewForm(
             onChange={handleInputChange}
             placeholder="제목을 입력하세요"
           />
-          <input
-            type="number"
+          <RatingInput
             className="ReviewForm-rating"
             name="rating"
             value={values.rating}
-            onChange={handleInputChange}
+            onChange={handleChange}
           />
         </div>
         <textarea

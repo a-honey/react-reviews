@@ -45,3 +45,8 @@ create-react-app
 5. 전역 데이터 다루기
 
 - Context
+
+api.js*fetch를 활용하여 URL에서 데이터 가져오기. getReviews, createReview, updateReview, deleteReview
+app.js*메인페이지. 정렬기능, 더보기 기능, 생성했을때, 수정했을때 기능, 번역기능 AppSortButton, App
+ReviewList.js_ReviewListItem, ReviewList map으로 ReviewListItem 가져오기
+FileInput.js

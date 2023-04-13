@@ -83,6 +83,8 @@ function App() {
           items={sorteditems}
           onDelete={handleDelete}
         />
+      </div>
+      <div className="app-more-button-wrap">
         {hasNext ? (
           <button
             className="app-more-button"
