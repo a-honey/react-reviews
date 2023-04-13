@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { getReviews } from "../api";
+import { createReview, getReviews } from "../api";
 import ReviewList from "./ReviewList";
 import logoimg from "../assets/logo.png";
 import "./App.css";
+import ReviewForm from "./ReviewForm";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -18,15 +19,23 @@ function App() {
 
   const handleRatingOrder = () => setOrder("rating");
 
+  const handleCreateSuccess = (review) => {
+    setItems((prevItems) => [review, ...prevItems]);
+  };
+
   useEffect(() => {
     handleLoad();
-  }, []);
+  }, [order]);
 
   return (
     <div className="app">
       <header className="app-header">
         <img src={logoimg} alt="logo" />
       </header>
+      <ReviewForm
+        onSubmit={createReview}
+        onSubmitSuccess={handleCreateSuccess}
+      />
       <div className="app-body">
         <div className="app-nav">
           <button

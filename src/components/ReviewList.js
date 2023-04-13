@@ -11,7 +11,7 @@ function ReviewListItem({ item }) {
   return (
     <div className="ReviewListItem">
       <img className="ReviewListItem-img" src={item.imgUrl} alt={item.title} />
-      <div>
+      <div className="ReviewListItem-box">
         <div className="ReviewListItem-title">{item.title}</div>
         <div className="ReviewListITem-rating">{item.rating}</div>
         <div className="ReviewListItem-createdAt">
@@ -27,7 +27,11 @@ function ReviewList({ items }) {
   return (
     <div>
       {items.map((item) => {
-        return <ReviewListItem item={item} />;
+        return (
+          <div key={item.id}>
+            <ReviewListItem item={item} />
+          </div>
+        );
       })}
     </div>
   );
