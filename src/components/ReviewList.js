@@ -7,7 +7,7 @@ function formatDate(value) {
 }
 
 function ReviewListItem({ review, onDelete, onEdit }) {
-  const { imgFile, content, title, rating, createdAt } = review;
+  const { imgUrl, content, title, rating, createdAt } = review;
 
   const handleDeleteClick = () => {
     onDelete(review.id);
@@ -16,9 +16,10 @@ function ReviewListItem({ review, onDelete, onEdit }) {
   const handleEditClick = () => {
     onEdit(review.id);
   };
+
   return (
     <div className="ReviewListItem" key={review.id}>
-      <img className="ReviewListItem-img" src={imgFile} alt={title} />
+      <img className="ReviewListItem-img" src={imgUrl} alt={title} />
       <div className="ReviewListItem-rows">
         <h1 className="ReviewListItem-title">{title}</h1>
         <p className="ReviewListItem-rating">{rating}</p>
@@ -52,7 +53,7 @@ function ReviewList({ reviews, onDelete, onUpdate, onUpdateSuccess }) {
       {reviews.map((review) => {
         if (review.id === editingId) {
           const { id, imgUrl, title, rating, content } = review;
-          const initialValues = { title, rating, content, imgFile: null };
+          const initialValues = { title, rating, content, imgUrl: null };
 
           const handleSubmit = (formData) => onUpdate(id, formData);
 

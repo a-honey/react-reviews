@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import placeholderImg from "../assets/preview-placeholder.png";
 import resetImg from "../assets/ic-reset.png";
 import "./ReviewForm.css";
-import { createReview } from "../api";
+import useAsync from "../hooks/useAsync";
 
 function FileInput({ className = "", name, initialPreview, value, onChange }) {
   const [preview, setPreview] = useState(initialPreview);
@@ -54,13 +54,23 @@ function FileInput({ className = "", name, initialPreview, value, onChange }) {
   );
 }
 
-function ReviewForm({ className = "", onSubmitSuccess }) {
-  const [values, setValues] = useState({
-    title: "",
-    rating: 0,
-    content: "",
-    imgFile: null,
-  });
+const INITIAL_VALUES = {
+  title: "",
+  rating: 0,
+  content: "",
+  imgUrl: null,
+};
+
+function ReviewForm({
+  className = "",
+  initialValues = INITIAL_VALUES,
+  initialPreview,
+  onCancel,
+  onSubmit,
+  onSubmitSuccess,
+}) {
+  const [values, setValues] = useState(initialValues);
+  const [isSubmitting, submittingError, onSubmitAsync] = useAsync(onSubmit);
 
   const handleChange = (name, value) => {
     setValues((prevValues) => ({
@@ -80,23 +90,23 @@ function ReviewForm({ className = "", onSubmitSuccess }) {
     formData.append("title", values.title);
     formData.append("rating", values.rating);
     formData.append("content", values.content);
-    formData.append("imgFile", values.imgFile);
-    const { review } = await createReview(formData);
+    formData.append("imgUrl", values.imgUrl);
+
+    const result = await onSubmitAsync(formData);
+    if (!result) return;
+
+    const { review } = result;
     onSubmitSuccess(review);
-    setValues({
-      title: "",
-      rating: 0,
-      content: "",
-      imgFile: null,
-    });
+    setValues(INITIAL_VALUES);
   };
 
   return (
     <form className={`ReviewForm ${className}`} onSubmit={handleSubmit}>
       <FileInput
         className="ReviewForm-preview"
-        name="imgFile"
-        value={values.imgFile}
+        name="imgUrl"
+        value={values.imgUrl}
+        initialPreview={initialPreview}
         onChange={handleChange}
       />
       <div className="ReviewForm-rows">
@@ -122,10 +132,22 @@ function ReviewForm({ className = "", onSubmitSuccess }) {
           onChange={handleInputChange}
         />
         <div className="ReviewForm-error-buttons">
-          <div className="ReviewForm-error">에러메시지</div>
+          <div className="ReviewForm-error">
+            {submittingError && <div>{submittingError.message}</div>}
+          </div>
           <div className="ReviewForm-buttons">
-            취소버튼
-            <button type="submit">확인</button>
+            {onCancel && (
+              <button className="ReviewForm-cancel-button" onClick={onCancel}>
+                취소
+              </button>
+            )}
+            <button
+              className="ReviewForm-submit-button"
+              disabled={isSubmitting}
+              type="submit"
+            >
+              확인
+            </button>
           </div>
         </div>
       </div>
