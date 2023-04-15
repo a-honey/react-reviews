@@ -6,8 +6,20 @@ export async function getItems({ order = "", cursor = "", limit = 10 }) {
   if (!items) {
     throw new Error("음식을 가져오는데 실패했습니다.");
   }
-  const reviews = await items.json();
-  const body = reviews;
+  const foods = await items.json();
+  const body = foods;
 
   return body;
+}
+
+export async function deleteItem(id) {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!response) {
+    throw new Error("음식을 삭제하는데 실패했습니다.");
+  }
+  const foods = await response.json();
+
+  return foods;
 }

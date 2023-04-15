@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getItems } from "./api";
+import { deleteItem, getItems } from "./api";
 import FoodList from "./FoodList";
 
 function App() {
@@ -25,6 +25,13 @@ function App() {
 
   const handleLoadMore = async () => await handleLoad({ order, cursor });
 
+  const handleDelete = async (id) => {
+    const response = await deleteItem(id);
+    if (!response) return;
+
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
   useEffect(() => {
     handleLoad({ order });
   }, [order]);
@@ -37,7 +44,7 @@ function App() {
         <button onClick={hanldeCreatedAtOrder}>최신순</button>
       </div>
       <div className="App-listbody">
-        <FoodList items={sortedItems} />
+        <FoodList items={sortedItems} onDelete={handleDelete} />
         {cursor && <button onClick={handleLoadMore}>더보기</button>}
       </div>
     </div>
