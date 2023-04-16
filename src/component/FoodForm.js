@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FileInput from "./FileInput";
+import useTranslate from "../hooks/useTranslate";
 
 const INITIAL_VALUE = {
   title: "",
@@ -15,6 +16,7 @@ function FoodForm({
   onSubmitSuccess,
   onCancel,
 }) {
+  const t = useTranslate();
   const [values, setValues] = useState(initialValues);
 
   const handleChange = (name, value) => {
@@ -63,8 +65,8 @@ function FoodForm({
           onChange={handleInputChange}
         />
       </div>
-      {onCancel && <button onClick={onCancel}>취소</button>}
-      <button type="submit">제출</button>
+      {onCancel && <button onClick={onCancel}>{t("cancel button")}</button>}
+      <button type="submit">{t("ok button")}</button>
     </form>
   );
 }

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import FoodForm from "./FoodForm";
+import useTranslate from "../hooks/useTranslate";
+import "./FoodList.css";
 
 function formatDate(value) {
   const date = new Date(value);
@@ -7,6 +9,7 @@ function formatDate(value) {
 }
 
 function FoodListItem({ item, onDelete, onEdit }) {
+  const t = useTranslate();
   const handleDeleteClick = () => onDelete(item.id);
 
   const handleEditClick = () => {
@@ -14,23 +17,30 @@ function FoodListItem({ item, onDelete, onEdit }) {
   };
   return (
     <div className="FoodListItem">
+      <img className="FoodListItem-img" src={item.imgUrl} alt={item.imgUrl} />
       <div className="FoodListItem-rows">
-        <div className="FoodLIstItem-title">메뉴: {item.title}</div>
-        <div className="FoodLIstItem-calorie">칼로리: {item.calorie}</div>
-        <div className="FoodLIstItem-createdAt">
-          날짜:{formatDate(item.createdAt)}
+        <div className="FoodLIstItem-title">
+          {t("menu list")}: {item.title}
         </div>
-        <div className="FoodLIstItem-content">내용: {item.content}</div>
+        <div className="FoodLIstItem-calorie">
+          {t("calorie list")}: {item.calorie}
+        </div>
+        <div className="FoodLIstItem-createdAt">
+          {t("date list")}: {formatDate(item.createdAt)}
+        </div>
+        <div className="FoodLIstItem-content">
+          {t("content list")}: {item.content}
+        </div>
       </div>
       <div className="FoodListItem-button">
         <button className="FoodListItem-edit-button" onClick={handleEditClick}>
-          수정
+          {t("edit button")}
         </button>
         <button
           className="FoodListItem-delete-button"
           onClick={handleDeleteClick}
         >
-          삭제
+          {t("delete button")}
         </button>
       </div>
     </div>

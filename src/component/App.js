@@ -3,9 +3,10 @@ import { createItem, deleteItem, getItems, updateItem } from "../api";
 import FoodList from "./FoodList";
 import FoodForm from "./FoodForm";
 import LocaleSelect from "./LocaleSelect";
-import { LocaleProvider } from "../contexts/LocaleContext";
+import useTranslate from "../hooks/useTranslate";
 
 function App() {
+  const t = useTranslate();
   const [items, setItems] = useState([]);
   const [order, setOrder] = useState("createdAt");
   const [cursor, setCursor] = useState(null);
@@ -54,32 +55,32 @@ function App() {
   }, [order]);
 
   return (
-    <LocaleProvider defaultValue="ko">
-      <div className="App">
-        <header className="App-header">
-          <LocaleSelect />
-        </header>
-        <FoodForm
-          className="App-foodform"
-          onSubmit={createItem}
-          onSubmitSuccess={handleCreateSuccess}
-        />
+    <div className="App">
+      <header className="App-header">
+        <LocaleSelect />
+      </header>
+      <FoodForm
+        className="App-foodform"
+        onSubmit={createItem}
+        onSubmitSuccess={handleCreateSuccess}
+      />
 
-        <div className="App-button">
-          <button onClick={hanldeCalorieOrder}>칼로리높은순</button>
-          <button onClick={hanldeCreatedAtOrder}>최신순</button>
-        </div>
-        <div className="App-listbody">
-          <FoodList
-            items={sortedItems}
-            onDelete={handleDelete}
-            onUpdate={updateItem}
-            onUpdateSuccess={handleUpdateSuccess}
-          />
-          {cursor && <button onClick={handleLoadMore}>더보기</button>}
-        </div>
+      <div className="App-button">
+        <button onClick={hanldeCalorieOrder}>{t("calorie order")}</button>
+        <button onClick={hanldeCreatedAtOrder}>{t("createdAt order")}</button>
       </div>
-    </LocaleProvider>
+      <div className="App-listbody">
+        <FoodList
+          items={sortedItems}
+          onDelete={handleDelete}
+          onUpdate={updateItem}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
+        {cursor && (
+          <button onClick={handleLoadMore}>{t("LoadMore button")}</button>
+        )}
+      </div>
+    </div>
   );
 }
 
