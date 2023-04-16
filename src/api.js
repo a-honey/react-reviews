@@ -16,10 +16,22 @@ export async function deleteItem(id) {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
   });
-  if (!response) {
+  if (!response.ok) {
     throw new Error("음식을 삭제하는데 실패했습니다.");
   }
   const foods = await response.json();
 
   return foods;
+}
+
+export async function createItem(formData) {
+  const response = await fetch(BASE_URL, {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok) {
+    throw new Error("리뷰를 추가하는데 실패했습니다");
+  }
+  const food = await response.json();
+  return food;
 }

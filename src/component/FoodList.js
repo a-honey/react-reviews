@@ -31,7 +31,9 @@ function FoodList({ items, onDelete }) {
   return (
     <div className="FoodList">
       {items.map((item) => (
-        <FoodListItem item={item} onDelete={onDelete} />
+        <div className="FoodListItem-id" key={item.id}>
+          <FoodListItem item={item} onDelete={onDelete} />
+        </div>
       ))}
     </div>
   );

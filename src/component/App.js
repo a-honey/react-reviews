@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { deleteItem, getItems } from "../api";
+import { createItem, deleteItem, getItems } from "../api";
 import FoodList from "./FoodList";
+import FoodForm from "./FoodForm";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -32,6 +33,10 @@ function App() {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
+  const handleSubmitSuccess = (food) => {
+    setItems((prevItems) => [food, ...prevItems]);
+  };
+
   useEffect(() => {
     handleLoad({ order });
   }, [order]);
@@ -39,6 +44,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
+      <FoodForm
+        className="App-foodform"
+        onSubmit={createItem}
+        onSubmitSuccess={handleSubmitSuccess}
+      />
+
       <div className="App-button">
         <button onClick={hanldeCalorieOrder}>칼로리높은순</button>
         <button onClick={hanldeCreatedAtOrder}>최신순</button>
