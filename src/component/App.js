@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteItem, getItems } from "./api";
+import { deleteItem, getItems } from "../api";
 import FoodList from "./FoodList";
 
 function App() {
