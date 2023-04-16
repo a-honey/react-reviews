@@ -13,6 +13,7 @@ function FoodForm({
   initialPreview,
   onSubmit,
   onSubmitSuccess,
+  onCancel,
 }) {
   const [values, setValues] = useState(initialValues);
 
@@ -62,6 +63,7 @@ function FoodForm({
           onChange={handleInputChange}
         />
       </div>
+      {onCancel && <button onClick={onCancel}>취소</button>}
       <button type="submit">제출</button>
     </form>
   );

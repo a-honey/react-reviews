@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createItem, deleteItem, getItems } from "../api";
+import { createItem, deleteItem, getItems, updateItem } from "../api";
 import FoodList from "./FoodList";
 import FoodForm from "./FoodForm";
 
@@ -33,10 +33,20 @@ function App() {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  const handleSubmitSuccess = (food) => {
+  const handleCreateSuccess = (food) => {
     setItems((prevItems) => [food, ...prevItems]);
   };
 
+  const handleUpdateSuccess = (food) => {
+    setItems((prevItems) => {
+      const splixId = prevItems.findIndex((item) => item.id === food.id);
+      return [
+        ...prevItems.slice(0, splixId),
+        food,
+        ...prevItems.slice(splixId + 1),
+      ];
+    });
+  };
   useEffect(() => {
     handleLoad({ order });
   }, [order]);
@@ -47,7 +57,7 @@ function App() {
       <FoodForm
         className="App-foodform"
         onSubmit={createItem}
-        onSubmitSuccess={handleSubmitSuccess}
+        onSubmitSuccess={handleCreateSuccess}
       />
 
       <div className="App-button">
@@ -55,7 +65,12 @@ function App() {
         <button onClick={hanldeCreatedAtOrder}>최신순</button>
       </div>
       <div className="App-listbody">
-        <FoodList items={sortedItems} onDelete={handleDelete} />
+        <FoodList
+          items={sortedItems}
+          onDelete={handleDelete}
+          onUpdate={updateItem}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
         {cursor && <button onClick={handleLoadMore}>더보기</button>}
       </div>
     </div>

@@ -35,3 +35,15 @@ export async function createItem(formData) {
   const food = await response.json();
   return food;
 }
+
+export async function updateItem(id, formData) {
+  const response = await fetch(`${BASE_URL}/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+  if (!response.ok) {
+    throw new Error("리뷰를 수정하는데 실패했습니다");
+  }
+  const food = await response.json();
+  return food;
+}
