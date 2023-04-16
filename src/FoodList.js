@@ -1,3 +1,8 @@
+function formatDate(value) {
+  const date = new Date(value);
+  return `${date.getFullYear()}년 ${date.getMonth() - 1}월 ${date.getDate()}일`;
+}
+
 function FoodListItem({ item, onDelete }) {
   const handleDeleteClick = () => onDelete(item.id);
   return (
@@ -5,7 +10,9 @@ function FoodListItem({ item, onDelete }) {
       <div className="FoodListItem-rows">
         <div className="FoodLIstItem-title">메뉴: {item.title}</div>
         <div className="FoodLIstItem-calorie">칼로리: {item.calorie}</div>
-        <div className="FoodLIstItem-createdAt">날짜:{item.createdAt}</div>
+        <div className="FoodLIstItem-createdAt">
+          날짜:{formatDate(item.createdAt)}
+        </div>
         <div className="FoodLIstItem-content">내용: {item.content}</div>
       </div>
       <div className="FoodListItem-button">
